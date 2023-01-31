@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:math';
 
 void main() {
   runApp(const MyApp());
@@ -11,17 +13,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '점메추',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: '스몰빅 점메추'),
+      home: MyHomePage(title: '스몰빅 점메추'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -30,6 +32,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var menuList = ["햄버거", "파스타", "고기", "덮밥"];
+
+  var _menu = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,12 +45,25 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Text('오늘의 점심 메뉴 추천'),
-            OutlinedButton(
-              onPressed: null,
-              child: Text("추천 받기"),
+            Container(
+              margin: const EdgeInsets.only(top: 20.0),
+              child: OutlinedButton(
+                onPressed: () => {
+                  setState(
+                    () {
+                      _menu = menuList[Random().nextInt(menuList.length)];
+                    },
+                  )
+                },
+                child: const Text("추천 받기"),
+              ),
             ),
+            Container(
+              margin: const EdgeInsets.only(top: 20.0),
+              child: Text('$_menu'),
+            )
           ],
         ),
       ),
